@@ -1,16 +1,53 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import Location from 'expo-location';
 import Tabs from './src/components/Tabs';
+import {TEST_KEY} from '@env'
+// api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
 
-const Tab = createBottomTabNavigator()
 const App = () => {
+  
+  const [loading, setLoading] = useState(true)
+  const [location, setLocation] = useState(null)
+  const [error, setError] = useState(null)
+
+  useEffect(()=> {
+    (async() => {
+      let {status} = await Location.requestForegroundPermissionsAsync()
+      if (status !== "granted"){
+        setError('Permission to access location was denied')
+        return
+      }
+      let location = await Location.getCurrentPositionAsync({})
+      setLocation(location)
+    })()
+  }, [])
+
+  if (location){
+    console.log(location)
+  }
+
+  if (loading){
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size={'large'} color={'blue'}/>
+      </View>
+    )
+  }
+
   return(
     <NavigationContainer>
       <Tabs/>
     </NavigationContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    flex: 1
+  }
+})
 
 export default App;
