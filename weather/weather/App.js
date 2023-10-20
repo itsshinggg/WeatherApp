@@ -3,7 +3,7 @@ import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Location from 'expo-location';
 import Tabs from './src/components/Tabs';
-import {TEST_KEY} from '@env'
+import {WEATHER_API_KEY} from '@env'
 // api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
 
 const App = () => {
@@ -11,6 +11,9 @@ const App = () => {
   const [loading, setLoading] = useState(true)
   const [location, setLocation] = useState(null)
   const [error, setError] = useState(null)
+  const [weather, setWeather] = useState([])
+
+  const fetchWeather = () => {}
 
   useEffect(()=> {
     (async() => {
