@@ -1,21 +1,22 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, ImageBackground, StatusBar, Text, View } from 'react-native'
 import IconText from '../components/IconText'
+import moment from 'moment'
 
-const City = (props) => {
-    // const {population, city, country } = props
+const City = (weatherData) => {
+    const {name, country, population, sunrise, sunset} = weatherData
     const {container, imageLayout, cityName, countryName, cityText, populationWrapper, populationText, riseSetWrapper, riseSetText, rowLayout} = styles
     return (
         <SafeAreaView style={container}>
             <ImageBackground source={require('../../assets/city_background.jpg')} style={imageLayout}>
-                <Text style={[cityName, cityText]}>London</Text>
-                <Text style={[countryName, cityText]}>UK</Text>
+                <Text style={[cityName, cityText]}>{name}</Text>
+                <Text style={[countryName, cityText]}>{country}</Text>
                 <View style={[rowLayout, populationWrapper]}>
-                    <IconText iconName={'user'} iconColor={'red'} bodyText={'8000'} bodyTextStyles={populationText}/>       
+                    <IconText iconName={'user'} iconColor={'red'} bodyText={`Population: ${population}`} bodyTextStyles={populationText}/>       
                 </View>
                 <View style={[rowLayout, riseSetWrapper]}>
-                    <IconText iconName={'sunrise'} iconColor={'white'} bodyText={'10:46:58am'} bodyTextStyles={riseSetText}  />       
-                    <IconText iconName={'sunset'} iconColor={'white'} bodyText={'17:28:15pm'} bodyTextStyles={riseSetText}/>       
+                    <IconText iconName={'sunrise'} iconColor={'white'} bodyText={moment(sunrise).format('h:mm:ss a')} bodyTextStyles={riseSetText}  />       
+                    <IconText iconName={'sunset'} iconColor={'white'} bodyText={moment(sunset).format('h:mm:ss a')} bodyTextStyles={riseSetText}/>       
                 </View>
             </ImageBackground>
         </SafeAreaView>
